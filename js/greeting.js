@@ -1,6 +1,8 @@
 
-const moduleGreetingElement = document.createElement(`section`);
-moduleGreetingElement.innerHTML = `<section class="greeting central--blur">
+import {changeScreen, render} from "./util";
+import moduleRulesElement from "./rules";
+
+const template = `<section class="greeting central--blur">
     <img class="greeting__logo" src="img/logo_ph-big.svg" width="201" height="89" alt="Pixel Hunter">
     <div class="greeting__asterisk asterisk"><span class="visually-hidden">Я просто красивая звёздочка</span>*</div>
     <div class="greeting__challenge">
@@ -16,9 +18,17 @@ moduleGreetingElement.innerHTML = `<section class="greeting central--blur">
     <button class="greeting__continue" type="button">
       <span class="visually-hidden">Продолжить</span>
       <svg class="icon" width="64" height="64" viewBox="0 0 64 64" fill="#000000">
-        <use xlink:href="img/sprite.svg#arrow-right"></use>
+        <use xlink:href="build/img/sprite.svg#arrow-right"></use>
       </svg>
     </button>
   </section>`;
+
+const moduleGreetingElement = render(template);
+
+const greetingContinue = moduleGreetingElement.querySelector(`.greeting__continue`);
+greetingContinue.addEventListener(`click`, () => {
+  changeScreen(moduleRulesElement);
+});
+
 
 export default moduleGreetingElement;

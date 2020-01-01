@@ -1,12 +1,15 @@
-const moduleStatsElement = document.createElement(`section`);
-moduleStatsElement.innerHTML = `<header class="header">
+
+import {changeScreen, render} from "./util";
+import moduleGreetingElement from "./greeting";
+
+const template = `<header class="header">
     <button class="back">
       <span class="visually-hidden">Вернуться к началу</span>
       <svg class="icon" width="45" height="45" viewBox="0 0 45 45" fill="#000000">
-        <use xlink:href="img/sprite.svg#arrow-left"></use>
+        <use xlink:href="build/img/sprite.svg#arrow-left"></use>
       </svg>
       <svg class="icon" width="101" height="44" viewBox="0 0 101 44" fill="#000000">
-        <use xlink:href="img/sprite.svg#logo-small"></use>
+        <use xlink:href="build/img/sprite.svg#logo-small"></use>
       </svg>
     </button>
   </header>
@@ -110,5 +113,12 @@ moduleStatsElement.innerHTML = `<header class="header">
       </tr>
     </table>
   </section>`;
+
+const moduleStatsElement = render(template);
+
+const back = moduleStatsElement.querySelector(`.back`);
+back.addEventListener(`click`, () => {
+  changeScreen(moduleGreetingElement);
+});
 
 export default moduleStatsElement;

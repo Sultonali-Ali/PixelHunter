@@ -1,13 +1,17 @@
 
-const moduleRulesElement = document.createElement(`section`);
-moduleRulesElement.innerHTML = `<header class="header">
+import {changeScreen, render} from "./util";
+import moduleGame1Element from "./game-1";
+import moduleGreetingElement from "./greeting";
+import moduleGame3Element from "./game-3";
+
+const template = `<header class="header">
     <button class="back">
       <span class="visually-hidden">Вернуться к началу</span>
       <svg class="icon" width="45" height="45" viewBox="0 0 45 45" fill="#000000">
-        <use xlink:href="img/sprite.svg#arrow-left"></use>
+        <use xlink:href="build/img/sprite.svg#arrow-left"></use>
       </svg>
       <svg class="icon" width="101" height="44" viewBox="0 0 101 44" fill="#000000">
-        <use xlink:href="img/sprite.svg#logo-small"></use>
+        <use xlink:href="build/img/sprite.svg#logo-small"></use>
       </svg>
     </button>
   </header>
@@ -27,5 +31,29 @@ moduleRulesElement.innerHTML = `<header class="header">
       <button class="rules__button  continue" type="submit" disabled>Go!</button>
     </form>
   </section>`;
+
+const moduleRulesElement = render(template);
+
+const rulesButton = moduleRulesElement.querySelector(`.rules__button`);
+rulesButton.addEventListener(`click`, () => {
+  rulesInput.value = ``;
+  changeScreen(moduleGame1Element);
+});
+
+const rulesInput = moduleRulesElement.querySelector(`.rules__input`);
+rulesInput.addEventListener(`input`, () => {
+  if (rulesInput.value.length >= 2) {
+    rulesButton.removeAttribute(`disabled`);
+  }
+  if (rulesInput.value.length < 2) {
+    rulesButton.setAttribute(`disabled`, `true`);
+  }
+});
+
+const back = moduleRulesElement.querySelector(`.back`);
+back.addEventListener(`click`, () => {
+  rulesInput.value = ``;
+  changeScreen(moduleGreetingElement);
+});
 
 export default moduleRulesElement;

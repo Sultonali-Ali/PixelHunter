@@ -9,7 +9,7 @@ const template = `<section class="intro">
 
 const moduleIntroElement = render(template);
 
-const agreeButton = moduleIntroElement.querySelector(`.intro__asterisk asterisk`);
+const agreeButton = moduleIntroElement.querySelector(`.intro__asterisk`);
 
 agreeButton.addEventListener(`click`, () => {
   changeScreen(moduleGreetingElement);

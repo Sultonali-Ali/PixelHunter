@@ -1,12 +1,16 @@
-const moduleGame2Element = document.createElement(`section`);
-moduleGame2Element.innerHTML = `<header class="header">
+
+import {changeScreen, render} from "./util";
+import moduleGame3Element from "./game-3";
+import moduleGreetingElement from "./greeting";
+
+const template = `<header class="header">
     <button class="back">
       <span class="visually-hidden">Вернуться к началу</span>
       <svg class="icon" width="45" height="45" viewBox="0 0 45 45" fill="#000000">
-        <use xlink:href="img/sprite.svg#arrow-left"></use>
+        <use xlink:href="build/img/sprite.svg#arrow-left"></use>
       </svg>
       <svg class="icon" width="101" height="44" viewBox="0 0 101 44" fill="#000000">
-        <use xlink:href="img/sprite.svg#logo-small"></use>
+        <use xlink:href="build/img/sprite.svg#logo-small"></use>
       </svg>
     </button>
     <div class="game__timer">NN</div>
@@ -44,5 +48,26 @@ moduleGame2Element.innerHTML = `<header class="header">
       <li class="stats__result stats__result--unknown"></li>
     </ul>
   </section>`;
+
+const moduleGame2Element = render(template);
+
+const gameContent = moduleGame2Element.querySelector(`.game__content`);
+const gameAnswers = Array.from(moduleGame2Element.querySelectorAll(`input[type=radio]`));
+gameContent.addEventListener(`click`, () => {
+  let checkedCount = 0;
+  gameAnswers.map((item) => {
+    if (item.checked) {
+      checkedCount++;
+    }
+  });
+  if (checkedCount >= 1) {
+    changeScreen(moduleGame3Element);
+  }
+});
+
+const back = moduleGame2Element.querySelector(`.back`);
+back.addEventListener(`click`, () => {
+  changeScreen(moduleGreetingElement);
+});
 
 export default moduleGame2Element;
