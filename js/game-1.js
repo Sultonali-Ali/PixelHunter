@@ -2,7 +2,6 @@
 import {changeScreen, render} from "./util";
 import moduleGame2Element from "./game-2";
 import moduleGreetingElement from "./greeting";
-import moduleGame3Element from "./game-3";
 
 const template = `<header class="header">
     <button class="back">
