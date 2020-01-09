@@ -1,6 +1,7 @@
 
 import {changeScreen} from "./util";
-import moduleIntroElement from "./intro";
+import moduleIntroFunc from "./intro";
+import {intro} from "./data";
 
-changeScreen(moduleIntroElement);
+changeScreen(moduleIntroFunc(intro));
 

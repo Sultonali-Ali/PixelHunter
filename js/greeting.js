@@ -1,18 +1,17 @@
 
 import {changeScreen, render} from "./util";
-import moduleRulesElement from "./rules";
+import moduleRulesFunc from "./rules";
+import {rules} from "./data";
 
-const template = `<section class="greeting central--blur">
+export default (data) => {
+  const template = `<section class="greeting central--blur">
     <img class="greeting__logo" src="img/logo_ph-big.svg" width="201" height="89" alt="Pixel Hunter">
-    <div class="greeting__asterisk asterisk"><span class="visually-hidden">Я просто красивая звёздочка</span>*</div>
+    <div class="greeting__asterisk asterisk"><span class="visually-hidden">${data.asterisk}</span>*</div>
     <div class="greeting__challenge">
-      <h3 class="greeting__challenge-title">Лучшие художники-фотореалисты бросают тебе вызов!</h3>
-      <p class="greeting__challenge-text">Правила игры просты:</p>
+      <h3 class="greeting__challenge-title">${data.challengeTitle}</h3>
+      <p class="greeting__challenge-text">${data.challengeText}</p>
       <ul class="greeting__challenge-list">
-        <li>Нужно отличить рисунок от фотографии и сделать выбор.</li>
-        <li>Задача кажется тривиальной, но не думай, что все так просто.</li>
-        <li>Фотореализм обманчив и коварен.</li>
-        <li>Помни, главное — смотреть очень внимательно.</li>
+      ${data.challengeList.map((item) => `<li>${item}</li>`).join(``)}
       </ul>
     </div>
     <button class="greeting__continue" type="button">
@@ -23,12 +22,15 @@ const template = `<section class="greeting central--blur">
     </button>
   </section>`;
 
-const moduleGreetingElement = render(template);
+  const moduleGreetingElement = render(template);
 
-const greetingContinue = moduleGreetingElement.querySelector(`.greeting__continue`);
-greetingContinue.addEventListener(`click`, () => {
-  changeScreen(moduleRulesElement);
-});
+  const greetingContinue = moduleGreetingElement.querySelector(`.greeting__continue`);
+  greetingContinue.addEventListener(`click`, () => {
+    changeScreen(moduleRulesFunc(rules));
+  });
 
 
-export default moduleGreetingElement;
+  return moduleGreetingElement;
+};
+
+

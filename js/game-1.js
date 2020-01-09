@@ -1,84 +1,58 @@
 
 import {changeScreen, render} from "./util";
 import moduleGame2Element from "./game-2";
-import moduleGreetingElement from "./greeting";
+import headerTemplateFunc from "./header";
+import statisticsTemplateFunc from "./statistics";
 
-const template = `<header class="header">
-    <button class="back">
-      <span class="visually-hidden">Вернуться к началу</span>
-      <svg class="icon" width="45" height="45" viewBox="0 0 45 45" fill="#000000">
-        <use xlink:href="build/img/sprite.svg#arrow-left"></use>
-      </svg>
-      <svg class="icon" width="101" height="44" viewBox="0 0 101 44" fill="#000000">
-        <use xlink:href="build/img/sprite.svg#logo-small"></use>
-      </svg>
-    </button>
-    <div class="game__timer">NN</div>
-    <div class="game__lives">
-      <img src="img/heart__empty.svg" class="game__heart" alt=" Missed Life" width="31" height="27">
-      <img src="img/heart__full.svg" class="game__heart" alt="Life" width="31" height="27">
-      <img src="img/heart__full.svg" class="game__heart" alt="Life" width="31" height="27">
-    </div>
-  </header>
+
+export default (data) => {
+  const template = `
   <section class="game">
-    <p class="game__task">Угадайте для каждого изображения фото или рисунок?</p>
+    <p class="game__task">${data.task}</p>
     <form class="game__content">
       <div class="game__option">
         <img src="http://placehold.it/468x458" alt="Option 1" width="468" height="458">
         <label class="game__answer game__answer--photo">
           <input class="visually-hidden" name="question1" type="radio" value="photo">
-          <span>Фото</span>
+          <span>${data.photo}</span>
         </label>
         <label class="game__answer game__answer--paint">
           <input class="visually-hidden" name="question1" type="radio" value="paint">
-          <span>Рисунок</span>
+          <span>${data.paint}</span>
         </label>
       </div>
       <div class="game__option">
         <img src="http://placehold.it/468x458" alt="Option 2" width="468" height="458">
         <label class="game__answer  game__answer--photo">
           <input class="visually-hidden" name="question2" type="radio" value="photo">
-          <span>Фото</span>
+          <span>${data.photo}</span>
         </label>
         <label class="game__answer  game__answer--paint">
           <input class="visually-hidden" name="question2" type="radio" value="paint">
-          <span>Рисунок</span>
+          <span>${data.paint}</span>
         </label>
       </div>
     </form>
-    <ul class="stats">
-      <li class="stats__result stats__result--wrong"></li>
-      <li class="stats__result stats__result--slow"></li>
-      <li class="stats__result stats__result--fast"></li>
-      <li class="stats__result stats__result--correct"></li>
-      <li class="stats__result stats__result--unknown"></li>
-      <li class="stats__result stats__result--unknown"></li>
-      <li class="stats__result stats__result--unknown"></li>
-      <li class="stats__result stats__result--unknown"></li>
-      <li class="stats__result stats__result--unknown"></li>
-      <li class="stats__result stats__result--unknown"></li>
-    </ul>
   </section>`;
 
-const moduleGame1Element = render(template);
+  const moduleGame1Element = render(template);
 
-const gameContent = moduleGame1Element.querySelector(`.game__content`);
-const gameAnswers = Array.from(moduleGame1Element.querySelectorAll(`input[type=radio]`));
-gameContent.addEventListener(`click`, () => {
-  let checkedCount = 0;
-  gameAnswers.map((item) => {
-    if (item.checked) {
-      checkedCount++;
+  const gameContent = moduleGame1Element.querySelector(`.game__content`);
+  const gameAnswers = Array.from(moduleGame1Element.querySelectorAll(`input[type=radio]`));
+  gameContent.addEventListener(`click`, () => {
+    let checkedCount = 0;
+    gameAnswers.map((item) => {
+      if (item.checked) {
+        checkedCount++;
+      }
+    });
+    if (checkedCount >= 2) {
+      changeScreen(moduleGame2Element);
     }
   });
-  if (checkedCount >= 2) {
-    changeScreen(moduleGame2Element);
-  }
-});
+  moduleGame1Element.prepend(headerTemplateFunc());
+  moduleGame1Element.append(statisticsTemplateFunc());
 
-const back = moduleGame1Element.querySelector(`.back`);
-back.addEventListener(`click`, () => {
-  changeScreen(moduleGreetingElement);
-});
 
-export default moduleGame1Element;
+  return moduleGame1Element;
+};
